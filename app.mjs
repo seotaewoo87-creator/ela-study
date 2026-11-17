@@ -1,5 +1,5 @@
 import {grade,circuit,amperes,number,resistanceSteps,touchVoltage} from './logic.mjs';
-import {empty,record,merge,openStore,readStore,writeStore,validate} from './progress.mjs';
+import {empty,record,merge,openStore,readStore,writeStore,validate,exportProgress,importProgress} from './progress.mjs';
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let state=empty(crypto.randomUUID()),db,data,unit,route,answers,saveQueue=Promise.resolve();
 const status=s=>$('#status').textContent=s, warn=s=>$('#warning').textContent=s;
@@ -8,10 +8,14 @@ function save(){
  if(db){
   const snapshot=structuredClone(state);document.body.dataset.saved='false';
   // Start the IDB transaction during the input event, before a possible navigation.
-  const writing=writeStore(db,snapshot);
+  const writing=writeStore(db,snapshot).then(saved=>{state=merge(saved,state).state;channel?.postMessage('saved');});
   saveQueue=Promise.all([saveQueue,writing]).then(()=>{if(state.seq===snapshot.seq)document.body.dataset.saved='true';}).catch(e=>warn('기록 저장 실패: '+e.message));
  }
 }
+const channel=typeof BroadcastChannel==='function'?new BroadcastChannel('ela'):null;
+async function refresh(){if(!db||!data)return;try{const stored=await readStore(db);if(stored){state=merge(stored,state).state;status(summary());const kind=route?.[0];if(kind==='problem'&&$('#problemState'))$('#problemState').textContent='상태: '+(latest(route[2])?(latest(route[2]).correct?'정답':'오답'):'미풀이');if(['problems','wrong'].includes(kind))$('#activity').innerHTML=`<h2>${kind==='wrong'?'오답 다시 풀기':'문제 목록'}</h2>`+problemLinks(kind==='wrong');}}catch(e){warn('기록 새로 읽기 실패: '+e.message);}}
+if(channel)channel.onmessage=refresh;
+addEventListener('focus',refresh);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});
 function put(map,key,value){state[map][key]=record(state,value);save();}
 const value=(map,key,fallback={})=>state[map][key]??fallback;
 const link=(kind,id,title,u=unit?.id)=>`<a class="item" href="#${kind}/${u??''}/${id??''}">${esc(title)}</a>`;
@@ -83,9 +87,10 @@ function navigate(){try{route=location.hash.slice(1).split('/');const [rawKind,u
  put('settings','route',{hash:location.hash});window.scrollTo(0,value('settings','scroll:'+location.hash,{y:0}).y);status(summary());
  }catch(e){warn('화면을 열 수 없습니다: '+e.message);}}
 function download(name,text,type='application/json'){const a=document.createElement('a'),url=URL.createObjectURL(new Blob([text],{type}));a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),3000);}
-function showRecords(){$('#activity').innerHTML='<h2>학습 기록</h2><p>주 1회 내보내기: 기록 파일을 보관하세요. 가져오기는 기존 기록과 병합합니다.</p><button id="export">기록 내보내기</button><label class="file">기록 가져오기<input type="file" id="import" accept="application/json,.json"></label>';
-$('#export').onclick=async()=>{const text=JSON.stringify(state,null,2),file=new File([text],'ela-progress.json',{type:'application/json'});if(navigator.canShare?.({files:[file]})&&/Android/i.test(navigator.userAgent)){try{await navigator.share({files:[file]});return;}catch(e){if(e.name==='AbortError')return;}}download('ela-progress.json',text);};
-$('#import').onchange=async e=>{try{const f=e.target.files[0];if(!f)return;if(f.size>20000000)throw Error('기록 파일이 너무 큽니다');const result=merge(state,JSON.parse(await f.text()));state=result.state;save();navigate();status(`가져오기: 추가 ${result.added}건, 충돌 ${result.conflicts}건. 오늘 화면에서 충돌 기록을 확인하세요.`);}catch(e){warn('가져오기 실패: '+e.message);}finally{e.target.value='';}};}
+function showRecords(){$('#activity').innerHTML='<h2>학습 기록</h2><p>주 1회 내보내기: 기록 파일을 보관하세요. 가져오기는 기존 기록과 병합합니다.</p><div class="recordActions"><button id="export">기록 내보내기</button><button id="importOpen">기록 가져오기</button><input hidden type="file" id="import" accept="application/json,.json"></div>';
+$('#importOpen').onclick=()=>$('#import').click();
+$('#export').onclick=async()=>{await saveQueue;await refresh();const text=JSON.stringify(exportProgress(state),null,2),file=new File([text],'ela-progress.json',{type:'application/json'});if(navigator.canShare?.({files:[file]})&&/Android/i.test(navigator.userAgent)){try{await navigator.share({files:[file]});return;}catch(e){if(e.name==='AbortError')return;}}download('ela-progress.json',text);};
+$('#import').onchange=async e=>{try{const f=e.target.files[0];if(!f)return;if(f.size>20000000)throw Error('기록 파일이 너무 큽니다');const source=JSON.parse(await f.text());await saveQueue;await refresh();const result=importProgress(state,source);state=result.state;save();await saveQueue;navigate();status(result.message);}catch(e){warn('가져오기 실패: '+e.message);}finally{e.target.value='';}};}
 $('#settingsOpen').onclick=()=>$('#settings').showModal();$('#settingsClose').onclick=()=>$('#settings').close();
 function appearance(){const theme=value('settings','theme',{mode:'system'}).mode;document.body.classList.toggle('dark',theme==='dark'||theme==='system'&&matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.style.fontSize=(value('settings','font',{size:17}).size)+'px';}
 $('#theme').onclick=()=>{const modes=['system','light','dark'],mode=modes[(modes.indexOf(value('settings','theme',{mode:'system'}).mode)+1)%3];put('settings','theme',{mode});appearance();status('화면 밝기: '+({system:'시스템',light:'밝게',dark:'어둡게'}[mode]));};
