@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 360" width="560" height="360" font-family="Malgun Gothic, Noto Sans KR, sans-serif">
+  <rect width="560" height="360" fill="#ffffff"/>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d1495b"/>
+    </marker>
+  </defs>
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <path d="M100,165 V50 H320 V80"/>
+    <path d="M320,150 V180"/>
+    <path d="M320,250 V300 H100 V191"/>
+    <line x1="76" y1="165" x2="124" y2="165"/>
+    <line x1="88" y1="191" x2="112" y2="191" stroke-width="5"/>
+    <!-- IEC resistors -->
+    <rect x="306" y="80" width="28" height="70" fill="#fff"/>
+    <rect x="306" y="180" width="28" height="70" fill="#fff"/>
+  </g>
+  <g stroke="#d1495b" stroke-width="2" marker-end="url(#arr)">
+    <line x1="170" y1="34" x2="240" y2="34"/>
+  </g>
+  <!-- voltage brackets -->
+  <g stroke="#1f6feb" stroke-width="1.8" fill="none">
+    <path d="M360,80 h10 v70 h-10"/>
+    <path d="M360,180 h10 v70 h-10"/>
+  </g>
+  <g font-size="16" fill="#222">
+    <text x="130" y="165">+</text>
+    <text x="130" y="200">−</text>
+    <text x="22" y="182">V</text>
+    <text x="22" y="202" font-size="13" fill="#555">24 V</text>
+    <text x="260" y="120">R₁</text>
+    <text x="244" y="140" font-size="13" fill="#555">1 kΩ</text>
+    <text x="260" y="220">R₂</text>
+    <text x="244" y="240" font-size="13" fill="#555">2 kΩ</text>
+    <text x="380" y="120" fill="#1f6feb">V₁ = 8 V</text>
+    <text x="380" y="220" fill="#1f6feb">V₂ = 16 V</text>
+    <text x="250" y="30" font-size="14" fill="#d1495b">I = 8 mA (어디서나 같다)</text>
+  </g>
+  <text x="280" y="340" font-size="13" fill="#555" text-anchor="middle">직렬: 전류는 같고, 전압은 저항에 비례해 나뉜다. R = R₁ + R₂ = 3 kΩ</text>
+</svg>

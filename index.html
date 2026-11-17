@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#185d63"><title>전기 학습 교실</title><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg"><link rel="stylesheet" href="app.css"></head>
+<body><header><h1>전기 학습 교실</h1><button id="settingsOpen">설정</button></header>
+<dialog id="settings"><h2>설정</h2><div class="controls"><button id="theme">화면 밝기</button><button id="fontDown" aria-label="글자 축소">글자 −</button><button id="fontUp">글자 +</button></div><button id="settingsClose">닫기</button></dialog>
+<div class="notices"><p id="status" role="status"></p><p id="warning" role="alert"></p><button id="update" hidden>새 버전으로 갱신</button></div>
+<nav id="tabs" aria-label="학습 메뉴"></nav><div id="layout"><aside id="toc" aria-label="학습 메뉴"></aside><main id="reader"></main><section id="activity" aria-label="문제와 실습"></section></div>
+<dialog id="zoom"><button id="closeZoom">닫기</button><button id="zoomOut">축소</button><button id="zoomIn">확대</button><div id="zoomArea"><img alt="확대 회로 그림"></div></dialog><script type="module" src="app.mjs"></script></body></html>

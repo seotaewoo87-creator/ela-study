@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340" width="600" height="340" font-family="Malgun Gothic, Noto Sans KR, sans-serif">
+  <rect width="600" height="340" fill="#ffffff"/>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d1495b"/>
+    </marker>
+  </defs>
+  <!-- SMPS box -->
+  <rect x="30" y="90" width="110" height="140" rx="8" fill="#f3f6fb" stroke="#222" stroke-width="2.5"/>
+  <text x="85" y="150" font-size="16" text-anchor="middle" fill="#222">SMPS</text>
+  <text x="85" y="174" font-size="15" text-anchor="middle" fill="#555">24 VDC</text>
+  <!-- load box -->
+  <rect x="450" y="110" width="110" height="100" rx="8" fill="#f7fbf3" stroke="#222" stroke-width="2.5"/>
+  <text x="505" y="155" font-size="16" text-anchor="middle" fill="#222">부하</text>
+  <text x="505" y="178" font-size="14" text-anchor="middle" fill="#555">(밸브 등) 2 A</text>
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <path d="M140,110 H240"/>
+    <path d="M340,110 H420 V130 H450"/>
+    <path d="M140,210 H240"/>
+    <path d="M340,210 H420 V190 H450"/>
+    <rect x="240" y="96" width="100" height="28" fill="#fff"/>
+    <rect x="240" y="196" width="100" height="28" fill="#fff"/>
+  </g>
+  <g stroke="#d1495b" stroke-width="2" marker-end="url(#arr)">
+    <line x1="165" y1="128" x2="225" y2="128"/>
+    <line x1="225" y1="192" x2="165" y2="192"/>
+  </g>
+  <g font-size="14" fill="#222">
+    <text x="146" y="104">+</text>
+    <text x="146" y="232">−</text>
+    <text x="290" y="88" text-anchor="middle">전선(+) 편도 50 m, 1.5 sq</text>
+    <text x="290" y="115" text-anchor="middle" font-size="13">0.573 Ω</text>
+    <text x="290" y="250" text-anchor="middle">전선(−) 편도 50 m, 1.5 sq</text>
+    <text x="290" y="215" text-anchor="middle" font-size="13">0.573 Ω</text>
+  </g>
+  <g font-size="14" fill="#1f6feb">
+    <text x="30" y="70">전원 단자 24 V</text>
+    <text x="440" y="90">부하 단자 ≈ 21.7 V</text>
+  </g>
+  <g font-size="13" fill="#555">
+    <text x="30" y="290">왕복 저항 R = 0.0172 × 100 ÷ 1.5 ≈ 1.147 Ω     전압강하 ΔV = 2 A × 1.147 Ω ≈ 2.29 V</text>
+    <text x="30" y="310">전류는 +선과 −선을 모두 지나므로 전선 저항은 왕복 길이로 계산한다</text>
+  </g>
+</svg>

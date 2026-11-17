@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 360" width="560" height="360" font-family="Malgun Gothic, Noto Sans KR, sans-serif">
+  <rect width="560" height="360" fill="#ffffff"/>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d1495b"/>
+    </marker>
+  </defs>
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <path d="M100,165 V60 H420 V130"/>
+    <path d="M280,60 V130"/>
+    <path d="M280,200 V290"/>
+    <path d="M420,200 V290 H100 V191"/>
+    <line x1="76" y1="165" x2="124" y2="165"/>
+    <line x1="88" y1="191" x2="112" y2="191" stroke-width="5"/>
+    <rect x="266" y="130" width="28" height="70" fill="#fff"/>
+    <rect x="406" y="130" width="28" height="70" fill="#fff"/>
+  </g>
+  <g fill="#222">
+    <circle cx="280" cy="60" r="4.5"/>
+    <circle cx="280" cy="290" r="4.5"/>
+  </g>
+  <g stroke="#d1495b" stroke-width="2" marker-end="url(#arr)">
+    <line x1="150" y1="44" x2="220" y2="44"/>
+    <line x1="262" y1="78" x2="262" y2="118"/>
+    <line x1="402" y1="78" x2="402" y2="118"/>
+  </g>
+  <g font-size="16" fill="#222">
+    <text x="130" y="165">+</text>
+    <text x="130" y="200">−</text>
+    <text x="22" y="182">V</text>
+    <text x="22" y="202" font-size="13" fill="#555">12 V</text>
+    <text x="304" y="160">R₁</text>
+    <text x="304" y="180" font-size="13" fill="#555">1 kΩ</text>
+    <text x="444" y="160">R₂</text>
+    <text x="444" y="180" font-size="13" fill="#555">3 kΩ</text>
+    <text x="150" y="34" font-size="14" fill="#d1495b">I = 16 mA</text>
+    <text x="254" y="104" font-size="14" fill="#d1495b" text-anchor="end">I₁ = 12 mA</text>
+    <text x="394" y="104" font-size="14" fill="#d1495b" text-anchor="end">I₂ = 4 mA</text>
+  </g>
+  <text x="280" y="330" font-size="13" fill="#555" text-anchor="middle">병렬: 전압은 같고(12 V), 전류는 저항에 반비례해 나뉜다. I = I₁ + I₂</text>
+  <text x="280" y="348" font-size="13" fill="#555" text-anchor="middle">합성저항 R = (1 × 3) ÷ (1 + 3) = 0.75 kΩ</text>
+</svg>
